@@ -8,6 +8,10 @@ jobs:
     name: 'Terraform Unit Tests'
     runs-on: ubuntu-latest
     
+    permissions:
+      # required for all workflows
+      security-events: write
+
     steps:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
