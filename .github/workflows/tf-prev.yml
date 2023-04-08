@@ -236,15 +236,15 @@ jobs:
         with:
           name: tfdeployment_rsa
 
-      - name: Accept remote host key
-        run: ssh-keyscan -H ${{ needs.terraform-apply.outputs.vm_ip }} >> ~/.ssh/known_hosts
-
       # Move tfdeployment_rsa to ~/.ssh directory
       - name: Move key to ~/.ssh and change permissions
         run: |
           mkdir -p ~/.ssh
           mv tfdeployment_rsa ~/.ssh/
           chmod 600 ~/.ssh/tfdeployment_rsa
+
+      - name: Accept remote host key
+        run: ssh-keyscan -H ${{ needs.terraform-apply.outputs.vm_ip }} >> ~/.ssh/known_hosts
 
       - name: Get VM specs
         run: |
