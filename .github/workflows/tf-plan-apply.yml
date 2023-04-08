@@ -41,6 +41,10 @@ jobs:
       with:
         terraform_wrapper: false
 
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init
+
     # Check if the production workspace exists
     - name: Terraform Workspace List
       id: workspace_list
@@ -54,10 +58,6 @@ jobs:
     # Select the production workspace
     - name: Terraform Workspace Select
       run: terraform workspace select production
-
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      run: terraform init
 
     # Checks that all Terraform configuration files adhere to a canonical format
     # Will fail the build if not
@@ -145,6 +145,10 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
 
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init
+
     # Check if the production workspace exists
     - name: Terraform Workspace List
       id: workspace_list
@@ -158,10 +162,6 @@ jobs:
     # Select the production workspace
     - name: Terraform Workspace Select
       run: terraform workspace select production
-
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      run: terraform init
 
     # Download saved plan from artifacts  
     - name: Download Terraform Plan
