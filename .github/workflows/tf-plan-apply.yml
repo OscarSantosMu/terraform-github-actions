@@ -48,11 +48,13 @@ jobs:
     # Check if the production workspace exists
     - name: Terraform Workspace List
       id: workspace_list
-      run: echo "::set-output name=workspaces::$(terraform workspace list | tr '\n' ' ')"
+      run: |
+        workspaces=$(terraform workspace list | tr '\n' ' ')
+        echo "workspaces=$workspaces" >> $GITHUB_ENV
 
     # Create the production workspace if it doesn't exist
     - name: Terraform Workspace New
-      if: contains(steps.workspace_list.outputs.workspaces, 'production') == false
+      if: contains(env.workspaces, 'production') == false
       run: terraform workspace new production
 
     # Select the production workspace
@@ -152,11 +154,13 @@ jobs:
     # Check if the production workspace exists
     - name: Terraform Workspace List
       id: workspace_list
-      run: echo "::set-output name=workspaces::$(terraform workspace list | tr '\n' ' ')"
+      run: |
+        workspaces=$(terraform workspace list | tr '\n' ' ')
+        echo "workspaces=$workspaces" >> $GITHUB_ENV
 
     # Create the production workspace if it doesn't exist
     - name: Terraform Workspace New
-      if: contains(steps.workspace_list.outputs.workspaces, 'production') == false
+      if: contains(env.workspaces, 'production') == false
       run: terraform workspace new production
 
     # Select the production workspace
