@@ -162,11 +162,16 @@ jobs:
         fi
 
     # Save output values to a file
-    - name: Save output values
+    - name: Save IP to output
       id: save-output-values
       run: |
         VM_IP=$(terraform output -raw public_ip_address)
+        cat $VM_IP
         echo "vm_ip=$VM_IP" >> $GITHUB_OUTPUT
+
+    # Save private key to local ssh directory
+    - name: Save Private Key from Terraform output
+      run: |
         mkdir -p ~/.ssh
         terraform output -raw tls_private_key > ~/.ssh/tfdeployment_rsa
 
