@@ -1,6 +1,6 @@
 variable "location" {
   description = ""
-  default = "eastus"
+  default     = "eastus"
   type        = string
 }
 
@@ -11,6 +11,6 @@ variable "resource_group_name_prefix" {
 }
 
 variable "environment" {
-  type = string
+  type    = string
   default = "staging"
 }
