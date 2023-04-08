@@ -166,7 +166,7 @@ jobs:
       id: save-output-values
       run: |
         VM_IP=$(terraform output public_ip_address)
-        echo $VM_IP >> $GITHUB_OUTPUT
+        echo "VM_IP=$VM_IP" >> $GITHUB_OUTPUT
         mkdir -p ~/.ssh
         terraform output -raw tls_private_key > ~/.ssh/tfdeployment_rsa
 
