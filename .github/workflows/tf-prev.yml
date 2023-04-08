@@ -7,6 +7,11 @@ on:
   pull_request:
     branches:
     - prevenvs
+  workflow_run:
+    workflows:
+      - "Terraform Unit Tests"
+    types:
+      - completed
 
 #Special permissions required for OIDC authentication
 permissions:
@@ -169,6 +174,18 @@ jobs:
       tfplanExitCode: ${{ steps.tf-plan-destroy.outputs.exitcode }}
 
     steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init
+
     # Generates an execution plan for Terraform
     # An exit code of 0 indicated no changes, 1 a terraform failure, 2 there are pending changes.
     - name: Terraform Plan
@@ -185,6 +202,7 @@ jobs:
         else 
           exit 0
         fi
+
     # Terraform Apply
     - name: Terraform Apply
       run: terraform apply -auto-approve destroytfplan
