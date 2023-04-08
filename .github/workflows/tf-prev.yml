@@ -165,7 +165,6 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     environment: staging
-    needs: [terraform-apply]
 
     steps:
     # Checkout the repository to the GitHub Actions runner
