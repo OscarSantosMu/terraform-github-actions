@@ -36,7 +36,7 @@ resource "azurerm_storage_account" "storageacc" {
 }
 
 resource "azurerm_service_plan" "app_plan" {
-  name                = "example-app-service-plan"
+  name                = "app-service-plan"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   os_type             = "Linux"
@@ -44,7 +44,7 @@ resource "azurerm_service_plan" "app_plan" {
 }
 
 resource "azurerm_linux_function_app" "fcnapp" {
-  name                = "example-linux-function-app"
+  name                = "existingfcnapp"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
 
