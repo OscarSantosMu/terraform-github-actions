@@ -191,16 +191,16 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
   }
 
   source_image_reference {
-    publisher = "cognosys"
-    offer     = "docker-ce-with-centos-8-0-free"
-    sku       = "docker-ce-with-centos-8-0-free"
+    publisher = "eurolinuxspzoo1620639373013"
+    offer     = "centos-stream-8-0-free"
+    sku       = "centos-stream-8-0-free"
     version   = "latest"
   }
 
   plan {
-    publisher = "cognosys"
-    product   = "docker-ce-with-centos-8-0-free"
-    name      = "docker-ce-with-centos-8-0-free"
+    publisher = "eurolinuxspzoo1620639373013"
+    product   = "centos-stream-8-0-free"
+    name      = "centos-stream-8-0-free"
 
   }
 
