@@ -52,7 +52,7 @@ resource "azurerm_service_plan" "app_plan" {
 }
 
 resource "azurerm_linux_function_app" "fcnapp" {
-  name                = "existingfcnapp"
+  name                = "fcnapp${random_id.random_id.hex}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
 
