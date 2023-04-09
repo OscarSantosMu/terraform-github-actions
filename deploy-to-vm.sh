@@ -25,4 +25,4 @@ cd awesome-compose/nginx-flask-mysql/ || exit 1
 # Start docker engine with systemd
 sudo systemctl start docker
 # Let docker do the magic
-sudo docker compose up
+sudo docker compose up -d
