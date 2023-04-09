@@ -168,7 +168,6 @@ jobs:
       id: save-output-values
       run: |
         VM_IP=$(terraform output -raw public_ip_address)
-        echo $VM_IP
         echo "vm_ip=$VM_IP" >> $GITHUB_OUTPUT
 
     # Save private key to local ssh directory
@@ -250,6 +249,15 @@ jobs:
         run: |
           ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/tfdeployment_rsa ${{ secrets.SSH_USER }}@${{ needs.terraform-apply.outputs.vm_ip }} 'cat /etc/os-release' || exit 1
 
+      - name: Copy script to VM
+        run: |
+          scp -o "StrictHostKeyChecking=no" -i ~/.ssh/tfdeployment_rsa deploy-to-vm.sh ${{ secrets.SSH_USER }}@${{ needs.terraform-apply.outputs.vm_ip }}:~/ || exit 1
+          ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/tfdeployment_rsa ${{ secrets.SSH_USER }}@${{ needs.terraform-apply.outputs.vm_ip }} 'ls -la | grep deploy-to-vm.sh' || exit 1
+
+      - name: Run script
+        run: |
+          ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/tfdeployment_rsa ${{ secrets.SSH_USER }}@${{ needs.terraform-apply.outputs.vm_ip }} 'chmod +x ~/deploy-to-vm.sh && ~/deploy-to-vm.sh' || exit 1
+
       - name: Docker installed
         continue-on-error: true
         run: |
@@ -259,3 +267,7 @@ jobs:
         continue-on-error: true
         run: |
           ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/tfdeployment_rsa ${{ secrets.SSH_USER }}@${{ needs.terraform-apply.outputs.vm_ip }} 'docker compose' || exit 1
+
+      - name: Test Deployed changes
+        run: |
+          curl http://${{ needs.terraform-apply.outputs.vm_ip }}
