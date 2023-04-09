@@ -36,7 +36,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 resource "azurerm_storage_account" "storageacc" {
-  name                     = "existingfcnapp"
+  name                     = "fcn${random_id.random_id.hex}"
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
