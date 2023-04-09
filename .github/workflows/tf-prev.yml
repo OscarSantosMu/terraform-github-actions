@@ -258,19 +258,13 @@ jobs:
           scp -o "StrictHostKeyChecking=no" -i ~/.ssh/tfdeployment_rsa deploy-to-vm.sh ${{ secrets.SSH_USER }}@${{ needs.terraform-apply.outputs.vm_ip }}:~/ || exit 1
           ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/tfdeployment_rsa ${{ secrets.SSH_USER }}@${{ needs.terraform-apply.outputs.vm_ip }} 'ls -la | grep deploy-to-vm.sh' || exit 1
 
+      # Run script to deploy an app to the VM
       - name: Run script
         run: |
           ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/tfdeployment_rsa ${{ secrets.SSH_USER }}@${{ needs.terraform-apply.outputs.vm_ip }} 'chmod +x ~/deploy-to-vm.sh && ~/deploy-to-vm.sh' || exit 1
-
-      - name: Docker installed
-        continue-on-error: true
-        run: |
-          ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/tfdeployment_rsa ${{ secrets.SSH_USER }}@${{ needs.terraform-apply.outputs.vm_ip }} 'docker' || exit 1
-
-      - name: Docker compose installed
-        continue-on-error: true
-        run: |
-          ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/tfdeployment_rsa ${{ secrets.SSH_USER }}@${{ needs.terraform-apply.outputs.vm_ip }} 'docker compose' || exit 1
+          while ! ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/tfdeployment_rsa ${{ secrets.SSH_USER }}@${{ needs.terraform-apply.outputs.vm_ip }} 'docker ps --format "${{ '{{.Names}}' }}" | grep -q "proxy'; do
+            sleep 5
+          done
 
       - name: Test Deployed changes
         run: |
