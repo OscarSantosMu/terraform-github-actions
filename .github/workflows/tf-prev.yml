@@ -262,7 +262,7 @@ jobs:
       - name: Run script
         run: |
           ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/tfdeployment_rsa ${{ secrets.SSH_USER }}@${{ needs.terraform-apply.outputs.vm_ip }} 'chmod +x ~/deploy-to-vm.sh && ~/deploy-to-vm.sh' || exit 1
-          while ! ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/tfdeployment_rsa ${{ secrets.SSH_USER }}@${{ needs.terraform-apply.outputs.vm_ip }} 'docker ps --format "${{ '{{.Names}}' }}" | grep -q "proxy'; do
+          while ! ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/tfdeployment_rsa ${{ secrets.SSH_USER }}@${{ needs.terraform-apply.outputs.vm_ip }} 'docker ps --format "${{ '{{.Names}}' }}" | grep -q "proxy"'; do
             sleep 5
           done
 
