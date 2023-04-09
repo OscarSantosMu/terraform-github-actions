@@ -249,3 +249,13 @@ jobs:
       - name: Get VM specs
         run: |
           ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/tfdeployment_rsa ${{ secrets.SSH_USER }}@${{ needs.terraform-apply.outputs.vm_ip }} 'cat /etc/os-release' || exit 1
+
+      - name: Docker installed
+        continue-on-error: true
+        run: |
+          ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/tfdeployment_rsa ${{ secrets.SSH_USER }}@${{ needs.terraform-apply.outputs.vm_ip }} 'docker' || exit 1
+
+      - name: Docker compose installed
+        continue-on-error: true
+        run: |
+          ssh -o "StrictHostKeyChecking=no" -i ~/.ssh/tfdeployment_rsa ${{ secrets.SSH_USER }}@${{ needs.terraform-apply.outputs.vm_ip }} 'docker compose' || exit 1
