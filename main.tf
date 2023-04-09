@@ -44,7 +44,7 @@ resource "azurerm_storage_account" "storageacc" {
 }
 
 resource "azurerm_service_plan" "app_plan" {
-  name                = "app-service-plan"
+  name                = "appservice-plan"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   os_type             = "Linux"
