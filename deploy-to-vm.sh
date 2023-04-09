@@ -4,7 +4,7 @@
 sudo dnf install -y git
 
 # Remove existing docker installations
-sudo yum remove docker \
+sudo yum remove -y docker \
                   docker-client \
                   docker-client-latest \
                   docker-common \
